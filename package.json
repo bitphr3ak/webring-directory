@@ -1,0 +1,17 @@
+{
+  "name": "webring-directory",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "Opt-in, verifiable public directory for Webring Studio sites",
+  "license": "GPL-3.0-or-later",
+  "engines": {
+    "node": ">=24"
+  },
+  "scripts": {
+    "start": "node src/server.js",
+    "dev": "node --watch src/server.js",
+    "test": "node --test",
+    "refresh": "node scripts/refresh.js"
+  }
+}

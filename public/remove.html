@@ -1,0 +1,127 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Remove a site — Webring Directory</title>
+    <meta
+      name="description"
+      content="Remove your own site from the Webring Directory with a signed request. The private key never leaves your machine."
+    />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="stylesheet" href="/style.css" />
+  </head>
+  <body>
+    <header class="site-header">
+      <div class="wrap">
+        <a class="brand" href="/">
+          <span class="brand-mark" aria-hidden="true"></span>
+          <span>Webring Directory</span>
+        </a>
+        <p class="tagline">
+          Remove your own site from the index. The directory only accepts a removal signed with
+          the Ed25519 key your site already publishes.
+        </p>
+      </div>
+    </header>
+
+    <main class="wrap page">
+      <section id="confirm-panel" class="panel" hidden>
+        <h2>Confirm removal</h2>
+        <p>
+          This signed request will remove <strong id="confirm-name">this site</strong> from the
+          directory.
+        </p>
+        <dl class="facts">
+          <div>
+            <dt>Site</dt>
+            <dd id="confirm-site"></dd>
+          </div>
+          <div>
+            <dt>Identity</dt>
+            <dd id="confirm-did"></dd>
+          </div>
+          <div>
+            <dt>Signed</dt>
+            <dd id="confirm-created"></dd>
+          </div>
+        </dl>
+        <form id="confirm-form">
+          <button type="submit">Remove this entry</button>
+        </form>
+        <p id="confirm-message" class="form-message" role="status" aria-live="polite"></p>
+        <p><a href="/">Cancel and go back</a></p>
+      </section>
+
+      <section id="start-panel" class="panel">
+        <h2>Remove your site</h2>
+        <p>
+          Enter the site URL you listed. The directory issues a single-use nonce, then shows the
+          command to run on the machine that holds your private key.
+        </p>
+        <form id="start-form">
+          <label for="site-url">Your site URL</label>
+          <input
+            id="site-url"
+            name="siteUrl"
+            type="url"
+            placeholder="https://yourname.example"
+            required
+          />
+          <button type="submit">Get a nonce</button>
+        </form>
+        <p id="start-message" class="form-message" role="status" aria-live="polite"></p>
+        <div id="instructions" hidden>
+          <p>Run this from the directory checkout, using the key for your site:</p>
+          <pre><code id="command"></code></pre>
+          <p class="hint">
+            The helper prints a link back to this page with the signed request attached. Open it,
+            check the site it names, and confirm. Nothing is removed until you do, and the link
+            expires with the nonce.
+          </p>
+        </div>
+      </section>
+
+      <section id="paste-panel" class="panel">
+        <h2>Have a signed request?</h2>
+        <p>
+          Paste the JSON printed by <code>scripts/sign-request.js</code>, or open the link it
+          produced. This is the same request Webring Studio will send for you later.
+        </p>
+        <form id="paste-form">
+          <label for="request-json">Signed request JSON</label>
+          <textarea
+            id="request-json"
+            name="request"
+            rows="8"
+            spellcheck="false"
+            placeholder='{ "siteUrl": "https://yourname.example", "did": "did:web:yourname.example", … }'
+          ></textarea>
+          <button type="submit">Review removal</button>
+        </form>
+        <p id="paste-message" class="form-message" role="status" aria-live="polite"></p>
+      </section>
+
+      <section class="panel">
+        <h2>How removal works</h2>
+        <ul>
+          <li>The directory hands out a nonce that expires after 15 minutes and works once.</li>
+          <li>You sign <code>{action, siteUrl, did, nonce, createdAt}</code> with your Ed25519 key.</li>
+          <li>The directory verifies that signature against your published key before deleting.</li>
+          <li>Your private key never leaves your machine.</li>
+        </ul>
+      </section>
+    </main>
+
+    <footer class="wrap footer">
+      <p>
+        Part of the Webring Studio ecosystem.
+        <a href="https://github.com/bitphr3ak/webring-studio" rel="noopener noreferrer" target="_blank"
+          >Webring Studio on GitHub</a
+        >.
+      </p>
+    </footer>
+
+    <script type="module" src="/remove.js"></script>
+  </body>
+</html>

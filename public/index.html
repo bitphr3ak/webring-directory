@@ -1,0 +1,109 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Webring Directory</title>
+    <meta
+      name="description"
+      content="An opt-in, verified directory of Webring Studio sites. Search by name, handle, interests or location."
+    />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="stylesheet" href="/style.css" />
+  </head>
+  <body>
+    <header class="site-header">
+      <div class="wrap">
+        <a class="brand" href="/">
+          <span class="brand-mark" aria-hidden="true"></span>
+          <span>Webring Directory</span>
+        </a>
+        <p class="tagline">
+          A searchable, opt-in index of Webring Studio profiles. Every entry is verified against
+          the Ed25519 key published by the site itself.
+        </p>
+      </div>
+    </header>
+
+    <main class="wrap layout">
+      <section class="results" aria-labelledby="results-heading">
+        <div class="search-row">
+          <label class="sr-only" for="search">Search profiles</label>
+          <input
+            id="search"
+            type="search"
+            placeholder="Search names, handles, interests, places…"
+            autocomplete="off"
+            spellcheck="false"
+          />
+          <span id="status" class="status" role="status" aria-live="polite"></span>
+        </div>
+
+        <h2 id="results-heading" class="section-title">
+          Profiles <span id="count" class="count"></span>
+        </h2>
+        <div id="entries" class="entry-grid"></div>
+        <p id="empty" class="empty" hidden>No profiles match that search yet.</p>
+        <button id="more" class="more" type="button" hidden>Load more</button>
+      </section>
+
+      <aside class="sidebar">
+        <section class="panel">
+          <h2>Add your site</h2>
+          <p>
+            Paste your published site URL. The directory reads your
+            <code>api/manifest.json</code>, <code>did.json</code> and signed
+            <code>api/profile.json</code>, then verifies the signature with your key.
+          </p>
+          <form id="add-form">
+            <label for="site-url">Your site URL</label>
+            <input
+              id="site-url"
+              name="siteUrl"
+              type="url"
+              placeholder="https://yourname.example"
+              required
+            />
+            <button type="submit">Add or refresh</button>
+          </form>
+          <p id="form-message" class="form-message" role="status" aria-live="polite"></p>
+          <p class="hint">
+            Only public profile fields are indexed. Re-submit after editing your profile, or let
+            the scheduled refresh pick changes up.
+          </p>
+        </section>
+
+        <section class="panel">
+          <h2>Removing yourself</h2>
+          <p>
+            Removal needs a fresh request signed with the Ed25519 key behind your site. The
+            removal page issues a nonce and walks you through signing it locally.
+          </p>
+          <p><a class="button" href="/remove">Open the removal page</a></p>
+        </section>
+
+        <section class="panel">
+          <h2>How it works</h2>
+          <ul>
+            <li>You opt in by submitting your own site URL.</li>
+            <li>Ownership is proven by the signed profile on your site.</li>
+            <li>Edits are picked up on your next publish and refresh.</li>
+            <li>Deletion needs a signed request, or an admin takedown.</li>
+            <li>No accounts, no cookies, no tracking.</li>
+          </ul>
+        </section>
+      </aside>
+    </main>
+
+    <footer class="wrap footer">
+      <p>
+        Part of the Webring Studio ecosystem.
+        <a href="https://github.com/bitphr3ak/webring-studio" rel="noopener noreferrer" target="_blank"
+          >Webring Studio on GitHub</a
+        >.
+      </p>
+    </footer>
+
+    <script type="module" src="/app.js"></script>
+  </body>
+</html>
